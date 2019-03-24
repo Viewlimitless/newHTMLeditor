@@ -43,7 +43,7 @@ public class View extends JFrame implements ActionListener {
 
     public void init() {
         initGui();
-        this.addWindowListener(new FrameListener(this));
+        this.addWindowListener(Controller.getContext().getBean("frameListener", FrameListener.class));
         this.setVisible(true);
     }
 
@@ -70,7 +70,8 @@ public class View extends JFrame implements ActionListener {
         JScrollPane jScrollPane2 = new JScrollPane(plainTextPane);
         tabbedPane.add("Текст", jScrollPane2);
         tabbedPane.setPreferredSize(new Dimension(500, 300));
-        TabbedPaneChangeListener listener = new TabbedPaneChangeListener(this);
+        TabbedPaneChangeListener listener = Controller.getContext().
+                getBean("tabbedPaneChangeListener", TabbedPaneChangeListener.class);
         tabbedPane.addChangeListener(listener);
         getContentPane().add(tabbedPane, BorderLayout.CENTER);
     }
@@ -118,11 +119,11 @@ public class View extends JFrame implements ActionListener {
         return tabbedPane.getSelectedIndex() == 0;
     }
 
-    public void update(){
+    public void update() {
         htmlTextPane.setDocument(controller.getDocument());
     }
 
-    public void showAbout(){
+    public void showAbout() {
         JOptionPane.showMessageDialog(
                 this,
                 "Viewlimitless@gmail.com",
@@ -134,7 +135,7 @@ public class View extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
-        switch (action){
+        switch (action) {
             case "Новый":
                 controller.createNewDocument();
                 break;
@@ -150,15 +151,16 @@ public class View extends JFrame implements ActionListener {
             case "Выход":
                 controller.exit();
                 break;
-            case "О программе":showAbout();
+            case "О программе":
+                showAbout();
         }
     }
 
     public void selectedTabChanged() {
-        if(tabbedPane.getSelectedIndex()==0){
+        if (tabbedPane.getSelectedIndex() == 0) {
             String text = plainTextPane.getText();
             controller.setPlainText(text);
-        }else if(tabbedPane.getSelectedIndex()==1){
+        } else if (tabbedPane.getSelectedIndex() == 1) {
             String text = controller.getPlainText();
             plainTextPane.setText(text);
         }

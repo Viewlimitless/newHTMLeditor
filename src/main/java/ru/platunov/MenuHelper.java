@@ -59,7 +59,7 @@ public class MenuHelper {
             addMenuItem(fontSizeMenu, fontSize, new StyledEditorKit.FontSizeAction(fontSize, Integer.parseInt(fontSize)));
         }
 
-        fontMenu.addMenuListener(new TextEditMenuListener(view));
+        fontMenu.addMenuListener(Controller.getContext().getBean("textEditMenuListener",TextEditMenuListener.class));
     }
 
     public static void initColorMenu(View view, JMenuBar menuBar) {
@@ -75,7 +75,7 @@ public class MenuHelper {
         addMenuItem(colorMenu, new StyledEditorKit.ForegroundAction("Пурпурный", Color.magenta));
         addMenuItem(colorMenu, new StyledEditorKit.ForegroundAction("Черный", Color.black));
 
-        colorMenu.addMenuListener(new TextEditMenuListener(view));
+        colorMenu.addMenuListener(Controller.getContext().getBean("textEditMenuListener",TextEditMenuListener.class));
     }
 
     public static void initAlignMenu(View view, JMenuBar menuBar) {
@@ -86,7 +86,7 @@ public class MenuHelper {
         addMenuItem(alignMenu, new StyledEditorKit.AlignmentAction("По центру", StyleConstants.ALIGN_CENTER));
         addMenuItem(alignMenu, new StyledEditorKit.AlignmentAction("По правому краю", StyleConstants.ALIGN_RIGHT));
 
-        alignMenu.addMenuListener(new TextEditMenuListener(view));
+        alignMenu.addMenuListener(Controller.getContext().getBean("textEditMenuListener",TextEditMenuListener.class));
     }
 
     public static void initStyleMenu(View view, JMenuBar menuBar) {
@@ -103,7 +103,7 @@ public class MenuHelper {
         addMenuItem(styleMenu, "Надстрочный знак", new SuperscriptAction());
         addMenuItem(styleMenu, "Зачеркнутый", new StrikeThroughAction());
 
-        styleMenu.addMenuListener(new TextEditMenuListener(view));
+        styleMenu.addMenuListener(Controller.getContext().getBean("textEditMenuListener",TextEditMenuListener.class));
     }
 
     public static void initEditMenu(View view, JMenuBar menuBar) {

@@ -13,21 +13,28 @@ public class Controller {
     private View view;
     private HTMLDocument document;
     private File currentFile;
+    private static ClassPathXmlApplicationContext context;
 
+    public static ClassPathXmlApplicationContext getContext() {
+        return context;
+    }
+
+    public static void setContext(ClassPathXmlApplicationContext context) {
+        Controller.context = context;
+    }
 
     public static void main(String[] args) {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                "applicationContext.xml"
-        );
+        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        try{
+            setContext(context);
+            View view = context.getBean("viewBean", View.class);
+            Controller controller = context.getBean("controllerBean", Controller.class);
+            view.setController(controller);
+            view.init();
+            controller.init();
 
-        View view = context.getBean("viewBean", View.class);
-        Controller controller = context.getBean("controllerBean", Controller.class);
-        view.setController(controller);
-        view.init();
-        controller.init();
-
-        context.close();
+        }catch (Exception e){ExceptionHandler.log(e);}
     }
 
     public Controller(View view) {
@@ -39,6 +46,7 @@ public class Controller {
     }
 
     public void exit() {
+        context.close();
         System.exit(0);
     }
 
@@ -91,7 +99,7 @@ public class Controller {
         try {
             view.selectHtmlTab();
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileFilter(new HTMLFileFilter());
+            fileChooser.setFileFilter(context.getBean("htmlFileFilter", HTMLFileFilter.class));
             int result = fileChooser.showOpenDialog(view);
             if (result == fileChooser.APPROVE_OPTION) {
                 currentFile = fileChooser.getSelectedFile();
@@ -125,7 +133,7 @@ public class Controller {
         try {
             view.selectHtmlTab();
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileFilter(new HTMLFileFilter());
+            fileChooser.setFileFilter(context.getBean("htmlFileFilter", HTMLFileFilter.class));
             int result = fileChooser.showSaveDialog(view);
             if (result == fileChooser.APPROVE_OPTION) {
                 currentFile = fileChooser.getSelectedFile();

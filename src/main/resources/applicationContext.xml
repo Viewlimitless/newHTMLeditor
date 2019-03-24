@@ -10,8 +10,28 @@
     <bean id="viewBean"
           class="ru.platunov.View">
     </bean>
+
     <bean id="controllerBean"
           class="ru.platunov.Controller">
+        <constructor-arg ref="viewBean"/>
+    </bean>
+
+    <bean id="htmlFileFilter"
+          class="ru.platunov.HTMLFileFilter">
+    </bean>
+
+    <bean id="tabbedPaneChangeListener"
+          class="ru.platunov.listeners.TabbedPaneChangeListener">
+        <constructor-arg ref="viewBean"/>
+    </bean>
+
+    <bean id="frameListener"
+          class="ru.platunov.listeners.FrameListener">
+        <constructor-arg ref="viewBean"/>
+    </bean>
+
+    <bean id="textEditMenuListener"
+          class="ru.platunov.listeners.TextEditMenuListener">
         <constructor-arg ref="viewBean"/>
     </bean>
 
